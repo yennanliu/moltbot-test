@@ -1,0 +1,21 @@
+document.getElementById('add-btn').addEventListener('click', addTodo);
+
+document.getElementById('todo-input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') addTodo();
+});
+
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const li = document.createElement('li');
+  li.textContent = text;
+  li.addEventListener('click', function() {
+    li.classList.toggle('completed');
+  });
+  li.addEventListener('dblclick', function() {
+    li.remove();
+  });
+  document.getElementById('todo-list').appendChild(li);
+  input.value = '';
+}
