@@ -8,14 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    concurrency:
+      group: 'pages-deploy'
+      cancel-in-progress: true
+    permissions:
+      pages: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v3
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          persist-credentials: false
-          fetch-depth: 0
+          path: .
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+        uses: actions/deploy-pages@v1
